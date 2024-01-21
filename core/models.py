@@ -9,7 +9,16 @@ from django.contrib.auth.models import (
 )
 
 
+class UserManager(BaseUserManager):
+    """Manager for users."""
 
+    def create_user(self, username, password=None, **kwargs):
+        """Create a new user."""
+        user = self.model(username=username, **kwargs)
+        user.set_password(password)
+        user.save()
+
+        return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
