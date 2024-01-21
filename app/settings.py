@@ -75,7 +75,7 @@ WSGI_APPLICATION = 'app.wsgi.application'
 
 DATABASES = {
     'default': {
-        'NAME': 'therapy-app-db',
+        'NAME': 'therapy_app_db',
         'ENGINE': 'mysql.connector.django',
         'HOST': '127.0.0.1',
         'PORT': 3306,
