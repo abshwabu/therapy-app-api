@@ -12,3 +12,8 @@ from rest_framework import status
 def create_user(**params):
     """Create a new user."""
     return get_user_model().objects.create_user(**params)
+
+
+class PublicUserAPITest(TestCase):
+    """Test for public api features."""
+    
