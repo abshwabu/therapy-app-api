@@ -62,4 +62,4 @@ class PublicUserAPITest(TestCase):
         user_exists = get_user_model().objects.filter(
             username=payload['username']
         ).exists()
-        self.assertTrue(user_exists)
+        self.assertFalse(user_exists)
