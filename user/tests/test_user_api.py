@@ -16,4 +16,8 @@ def create_user(**params):
 
 class PublicUserAPITest(TestCase):
     """Test for public api features."""
+
+    def setUp(self):
+        self.client = APIClient()
+
     
