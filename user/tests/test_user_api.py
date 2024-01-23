@@ -134,3 +134,9 @@ class PrivetUserApiTests(TestCase):
             'email': self.user.email,
             'username': self.user.username,
         })
+
+    def test_post_method_not_allowed(self):
+        """Test that post method is not allowed."""
+        res = self.client.post(ME_URL, {})
+
+        self.assertEqual(res.status, status.HTTP_405_METHOD_NOT_ALLOWED)
