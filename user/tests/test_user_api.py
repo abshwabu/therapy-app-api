@@ -139,7 +139,7 @@ class PrivetUserApiTests(TestCase):
         """Test that post method is not allowed."""
         res = self.client.post(ME_URL, {})
 
-        self.assertEqual(res.status, status.HTTP_405_METHOD_NOT_ALLOWED)
+        self.assertEqual(res.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
 
     def test_update_user_profile(self):
         """Test that update user profile."""
