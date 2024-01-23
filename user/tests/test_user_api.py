@@ -13,6 +13,10 @@ CREATE_USER_URL = reverse('user:create')
 
 TOKEN_URL = reverse('user:token')
 
+
+ME_URL = reverse('user:me')
+
+
 def create_user(**params):
     """Create a new user."""
     return get_user_model().objects.create_user(**params)
@@ -101,3 +105,9 @@ class PublicUserAPITest(TestCase):
 
         self.assertNotIn('token', res.data)
         self.assertEqual(res.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_retrieve_user_unauthenticated(self):
+        """Test authentication is required."""
+        res = self.client.get(ME_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
