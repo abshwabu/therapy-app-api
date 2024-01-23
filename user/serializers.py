@@ -1,7 +1,8 @@
 """
 Serializer for the User API.
 """
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate
+from django.utils.translation import gettext as _
 
 from rest_framework import serializers
 
@@ -17,4 +18,12 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """create and return a user with encrypted password."""
         return get_user_model().objects.create_user(**validated_data)
-        
+
+
+class AuthTokenSerializer(serializers.Serializer):
+    """Serializer for the user auth token."""
+    username = serializers.CharField(max_length=255)
+    password = serializers.CharField(
+        style={'input_type': 'password'}
+        trim_whitespace=False
+    )
