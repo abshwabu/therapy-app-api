@@ -1,6 +1,7 @@
 """
 Database models.
 """
+from django.conf import settings
 from django.db import models
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -40,3 +41,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = 'username'
+
+
+class Details(models.Model):
+    """User details object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE
+    )
+    phone = models.IntegerField(null=True, blank=True, unique=True)
+    religion = models.TextChoices(null=True, blank=True, )
+    
+
