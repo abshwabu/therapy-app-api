@@ -33,3 +33,17 @@ class ModelTest(TestCase):
 
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+    def test_create_community_post(self):
+        """Test creating a community post."""
+        user = get_user_model().objects.create_user(
+            'username',
+            'password123',
+        )
+        c_post = models.CommunityPost.objects.create(
+            user=user,
+            title='community post title',
+            content='community post content',
+        )
+
+        self.assertEqual(str(c_post), c_post.title)
