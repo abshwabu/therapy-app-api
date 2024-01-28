@@ -45,4 +45,12 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class CommunityPost(models.Model):
     """Community post object."""
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=255)
+    description = models.TimeField()
+
+
     
