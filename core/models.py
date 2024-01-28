@@ -43,6 +43,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
 
 
-
-
-
+class CommunityPost(models.Model):
+    """Community post object."""
+    
