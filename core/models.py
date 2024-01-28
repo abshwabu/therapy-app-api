@@ -50,7 +50,7 @@ class CommunityPost(models.Model):
         on_delete=models.CASCADE,
     )
     title = models.CharField(max_length=255)
-    content = models.TimeField()
+    content = models.TextField()
 
     def __str__(self):
         return self.title
