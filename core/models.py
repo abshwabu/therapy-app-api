@@ -43,13 +43,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
 
 
-class Details(models.Model):
-    """User details object."""
-    user = models.ForeignKey(
-        settings.AUTH_USER_MODEL,
-        on_delete=models.CASCADE
-    )
-    phone = models.IntegerField(null=True, blank=True, unique=True)
-    religion = models.TextChoices(null=True, blank=True, )
-    
+
+
 
