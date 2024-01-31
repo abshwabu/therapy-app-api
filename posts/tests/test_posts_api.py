@@ -40,3 +40,7 @@ class PublicPostAPITests(TestCase):
         res = self.client.get(POSTS_URL)
 
         self.assertEqualL(res.status_code, status.HTTP_401_UNAUTHORIZED)
+
+
+class PrivetPostAPITests(TestCase):
+    """Test authenticated api requests"""
