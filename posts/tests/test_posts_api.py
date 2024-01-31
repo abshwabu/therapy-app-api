@@ -23,5 +23,5 @@ def create_post(user, **params):
     }
     defaults.update(params)
 
-    post = Posts.objects.create(user=user, **defaults)
+    post = Post.objects.create(user=user, **defaults)
     return post
