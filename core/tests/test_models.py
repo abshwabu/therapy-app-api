@@ -40,10 +40,10 @@ class ModelTest(TestCase):
             'username',
             'password123',
         )
-        c_post = models.CommunityPost.objects.create(
+        post = models.Post.objects.create(
             user=user,
             title='community post title',
             content='community post content',
         )
 
-        self.assertEqual(str(c_post), c_post.title)
+        self.assertEqual(str(post), post.title)
