@@ -1,5 +1,5 @@
 """
-Tests for recipe APIs.
+Tests for post APIs.
 """
 from decimal import Decimal
 
