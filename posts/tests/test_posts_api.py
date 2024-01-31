@@ -15,6 +15,8 @@ from core.models import Post
 from posts.serializers import PostSerializer
 
 
+POSTS_URL = reverse('post:post-list')
+
 def create_post(user, **params):
     """Create and return a sample post."""
     defaults = {
@@ -33,4 +35,8 @@ class PublicPostAPITests(TestCase):
     def setUp(self):
         self.client = APIClient()
 
-    
+    def test_auth_required(self):
+        """Test auth is required to call api."""
+        res = self.client.get(POSTS_URL)
+
+        self.assertEqualL(res.status_code, status.HTTP_401_UNAUTHORIZED)
