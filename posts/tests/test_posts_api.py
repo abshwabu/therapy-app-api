@@ -53,4 +53,14 @@ class PrivetPostAPITests(TestCase):
         )
         self.client.force_authenticate(self.user)
 
-        
+    def test_retrieve_post(self):
+        """Test retrieving post."""
+        create_post(user=self.user)
+        create_post(user=self.user)
+
+        res = self.client.get(POSTS_URL)
+
+        posts = Post.objects.all().order_by('-id')
+        serializer = PostSerializer(posts, many=True)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
