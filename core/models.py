@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     USERNAME_FIELD = 'username'
 
 
-class CommunityPost(models.Model):
+class Post(models.Model):
     """Community post object."""
     user = models.ForeignKey(
         settings.AUTH_USER_MODEL,
