@@ -39,7 +39,7 @@ class PublicPostAPITests(TestCase):
         """Test auth is required to call api."""
         res = self.client.get(POSTS_URL)
 
-        self.assertEqualL(res.status_code, status.HTTP_401_UNAUTHORIZED)
+        self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
 class PrivetPostAPITests(TestCase):
@@ -76,7 +76,7 @@ class PrivetPostAPITests(TestCase):
 
         res = self.client.get(POSTS_URL)
 
-        posts = Post.objects.all().order_by('-id')
+        posts = Post.objects.filter(user=self.user)
         serializer = PostSerializer(posts, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
