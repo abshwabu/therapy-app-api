@@ -25,3 +25,8 @@ def create_post(user, **params):
 
     post = Post.objects.create(user=user, **defaults)
     return post
+
+
+class PublicPostAPITests(TestCase):
+    """Testing unauthenticated api requests."""
+    
