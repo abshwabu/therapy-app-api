@@ -64,3 +64,19 @@ class PrivetPostAPITests(TestCase):
         serializer = PostSerializer(posts, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
+
+    def test_post_is_limited_to_user(self):
+        """Test list of posts is limited to the user."""
+        other_user = get_user_model().objects.create_user(
+            'other_user',
+            'password123'
+        )
+        create_post(user=other_user)
+        create_post(user=self.user)
+
+        res = self.client.get(POSTS_URL)
+
+        posts = Post.objects.all().order_by('-id')
+        serializer = PostSerializer(posts, many=True)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializer.data)
