@@ -44,3 +44,13 @@ class PublicPostAPITests(TestCase):
 
 class PrivetPostAPITests(TestCase):
     """Test authenticated api requests"""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = get_user_model().objects.create_user(
+            'username',
+            'password123'
+        )
+        self.client.force_authenticate(self.user)
+
+        
