@@ -29,4 +29,8 @@ def create_post(user, **params):
 
 class PublicPostAPITests(TestCase):
     """Testing unauthenticated api requests."""
+
+    def setUp(self):
+        self.client = APIClient()
+
     
