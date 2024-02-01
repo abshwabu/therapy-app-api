@@ -96,4 +96,17 @@ class PrivetPostAPITests(TestCase):
 
         serializer = PostDetailSerializer(post)
         self.assertEqual(res.data, serializer.data)
-        
+
+    def test_creating_post(self):
+        """Test creating a post."""
+        payload = {
+            'title':'sample title'
+        }
+
+        res = self.client.post(POSTS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        post = Post.objects.get(id=res.data['id'])
+        for k, v in payload.items():
+            self.assertEqual(getattr(post, k), v)
+        self.assertEqual(post.user, self.user)
