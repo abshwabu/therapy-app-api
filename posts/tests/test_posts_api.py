@@ -111,3 +111,22 @@ class PrivetPostAPITests(TestCase):
         for k, v in payload.items():
             self.assertEqual(getattr(post, k), v)
         self.assertEqual(post.user, self.user)
+
+    def test_partial_update(self):
+        """Test partial update."""
+        original_title = 'original title'
+        post = create_post(
+            user=self.user,
+            title=original_title,
+            content='Old Content'
+        )
+
+        payload = {'content':'New content'}
+        url = detail_url(post.id)
+        res = self.client.patch(url, payload)
+
+        self.assertEqual(res.status, status.HTTP_200_OK)
+        post.refresh_from_db()
+        self.assertEqual(res.content, payload['content'])
+        self.assertEqual(res.title, original_title)
+        self.assertEqual(res.user, self.user)
