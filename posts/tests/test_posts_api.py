@@ -12,10 +12,16 @@ from rest_framework.test import APIClient
 
 from core.models import Post
 
-from posts.serializers import PostSerializer
+from posts.serializers import PostSerializer, PostDetailSerializer
 
 
 POSTS_URL = reverse('post:post-list')
+
+
+def detail_url(post_id):
+    """Create and return a post detail URL."""
+    return reverse('post:post-detail', args=[post_id])
+
 
 def create_post(user, **params):
     """Create and return a sample post."""
