@@ -24,6 +24,10 @@ class PostViewSet(viewsets.ModelViewSet):
         """Return serializer class for request."""
         if self.action == 'list':
             return serializers.PostSerializer
-        
+
         else:
             return serializers.PostDetailSerializer
+
+    def perform_create(self, serializer):
+        """Create a new post."""
+        serializer.save(user=self.request.user)
