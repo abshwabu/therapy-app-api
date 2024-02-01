@@ -86,3 +86,14 @@ class PrivetPostAPITests(TestCase):
         serializer = PostSerializer(posts, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializer.data)
+
+    def test_get_post_detail(self):
+        """ Test get post detail."""
+        post = create_post(user=self.user)
+
+        url = detail_url(post.id)
+        res = self.client.get(url)
+
+        serializer = PostDetailSerializer(post)
+        self.assertEqual(res.data, serializer.data)
+        
