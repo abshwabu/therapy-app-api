@@ -11,7 +11,7 @@ from posts import serializers
 
 class PostViewSet(viewsets.ModelViewSet):
     """view for manage post api."""
-    serializer_class = serializers.PostSerializer
+    serializer_class = serializers.PostDetailSerializer
     queryset = Post.objects.all()
     authentication_classes = [TokenAuthentication]
     permission_classes = [IsAuthenticated]
@@ -19,3 +19,11 @@ class PostViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         """Filter post by user"""
         return self.queryset.filter(user=self.request.user).order_by('-id')
+
+    def get_serializer_class(self):
+        """Return serializer class for request."""
+        if self.action == 'list':
+            return serializers.PostSerializer
+        
+        else:
+            return serializers.PostDetailSerializer
