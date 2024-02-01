@@ -151,3 +151,13 @@ class PrivetPostAPITests(TestCase):
         for k, v in payload.items():
             self.assertEqual(getattr(post, k), v)
         self.assertEqual(post.user, self.user)
+
+    def test_delete_post(self):
+        """Test deleting post."""
+        post = create_post(user=self.user)
+
+        url = detail_url(post.id)
+        res = self.client.delete(url)
+
+        self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
+        self.assertFalse(Post.objects.filter(id=post.id).exists())
