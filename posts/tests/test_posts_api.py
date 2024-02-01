@@ -100,7 +100,8 @@ class PrivetPostAPITests(TestCase):
     def test_creating_post(self):
         """Test creating a post."""
         payload = {
-            'title':'sample title'
+            'title':'sample title',
+            'content':'sample content'
         }
 
         res = self.client.post(POSTS_URL, payload)
