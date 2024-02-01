@@ -125,8 +125,8 @@ class PrivetPostAPITests(TestCase):
         url = detail_url(post.id)
         res = self.client.patch(url, payload)
 
-        self.assertEqual(res.status, status.HTTP_200_OK)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
         post.refresh_from_db()
-        self.assertEqual(res.content, payload['content'])
-        self.assertEqual(res.title, original_title)
-        self.assertEqual(res.user, self.user)
+        self.assertEqual(post.content, payload['content'])
+        self.assertEqual(post.title, original_title)
+        self.assertEqual(post.user, self.user)
