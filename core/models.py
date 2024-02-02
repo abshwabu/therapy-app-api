@@ -51,6 +51,7 @@ class Post(models.Model):
     )
     title = models.CharField(max_length=255)
     content = models.TextField()
+    tags = models.ManyToManyField('Tag')
 
     def __str__(self):
         return self.title
