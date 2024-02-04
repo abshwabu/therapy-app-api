@@ -11,3 +11,5 @@ from rest_framework.test import APIClient
 from core.models import Tag
 
 from posts.serializers import TagSerializer
+
+TAGS_URL = reverse('post:tag-list')
