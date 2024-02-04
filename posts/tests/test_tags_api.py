@@ -52,3 +52,17 @@ class PrivateTagAPITest(TestCase):
         serializers = TagSerializer(tags, many=True)
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data, serializers.data)
+
+    def test_tag_is_limited_to_user(self):
+        """Test tag is limited to user"""
+        tag = Tag.objects.create(user=self.user, name='Depression')
+        user2 = get_user_model().objects.create_user(username='user2', password='password123')
+        Tag.objects.create(user=user2, name='Bipolar')
+
+        res = self.client.get(TAGS_URL)
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(len(res.data), 1)
+        self.assertEqual(res.data[0]['name'], tag.name)
+        self.assertEqual(res.data[0]['id'], tag.id)
+        
