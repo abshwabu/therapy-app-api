@@ -181,3 +181,27 @@ class PrivetPostAPITests(TestCase):
                 user=self.user
             ).exists()
             self.assertTrue(exists)
+
+    def test_creating_post_with_existing_tags(self):
+        """test creating a post with existing tags."""
+        tag1 = Tag.objects.create(user=self.user, name='tag1')
+        payload = {
+            'user': self.user,
+            'title': 'sample title',
+            'content': 'sample content',
+            'tags': [{'name': 'tag1'}, {'name': 'tag2'}]
+        }
+        res = self.client.post(POSTS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        posts = Post.objects.filter(user=self.user)
+        self.assertEqual(posts.count(), 1)
+        post = posts[0]
+        self.assertEqual(post.tags.count(), 2)
+        self.assertIn(tag1, post.tags.all())
+        for tag in payload['tags']:
+            exists = post.tags.filter(
+                name=tag['name'],
+                user=self.user
+            ).exists()
+            self.assertTrue(exists)
