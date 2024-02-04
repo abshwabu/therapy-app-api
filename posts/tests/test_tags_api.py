@@ -40,3 +40,15 @@ class PrivateTagAPITest(TestCase):
         self.client = APIClient()
         self.user = create_user()
         self.client.force_authenticate(self.user)
+
+    def test_retrieve_tag(self):
+        """Test retrieving tags"""
+        Tag.objects.create(user=self.user, name='ADHD')
+        Tag.objects.create(user=self.user, name='Anxiety')
+
+        res = self.client.get(TAGS_URL)
+
+        tags = Tag.objects.all().order_by('name')
+        serializers = TagSerializer(tags, many=True)
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(res.data, serializers.data)
