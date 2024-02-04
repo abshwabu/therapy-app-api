@@ -18,3 +18,10 @@ TAGS_URL = reverse('post:tag-list')
 def create_user(username='user', password='password123'):
     """create and return user."""
     return get_user_model().objects.create_user(username=username, password=password)
+
+
+class PublicTagAPITest(TestCase):
+    """Tests for unauthenticated api request."""
+
+    def setUp(self):
+        self.client = APIClient()
