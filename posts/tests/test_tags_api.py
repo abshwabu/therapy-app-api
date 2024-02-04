@@ -14,6 +14,10 @@ from posts.serializers import TagSerializer
 
 TAGS_URL = reverse('post:tag-list')
 
+def details_url(tag_id):
+    """Create and return tags details"""
+    return reverse('posts:tag-details', args=(tag_id,))
+
 
 def create_user(username='user', password='password123'):
     """create and return user."""
@@ -65,3 +69,5 @@ class PrivateTagAPITest(TestCase):
         self.assertEqual(len(res.data), 1)
         self.assertEqual(res.data[0]['name'], tag.name)
         self.assertEqual(res.data[0]['id'], tag.id)
+
+    
