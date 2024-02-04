@@ -76,7 +76,7 @@ class PrivateTagAPITest(TestCase):
 
         payload = {'name': 'Anger management'}
         url = details_url(tag.id)
-        res = self.client.post(url, payload)
+        res = self.client.patch(url, payload)
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         tag.refresh_from_db()
