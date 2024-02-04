@@ -1,11 +1,11 @@
 """
 Views for post APIs.
 """
-from rest_framework import viewsets
+from rest_framework import viewsets, mixins
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 
-from core.models import Post
+from core.models import Post, Tag
 from posts import serializers
 
 
@@ -31,3 +31,13 @@ class PostViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Create a new post."""
         serializer.save(user=self.request.user)
+
+
+class TagViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+    """View set for a tag."""
+    serializer_class = serializers.TagSerializer
+    queryset = Tag.objects.all()
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
+
+    
