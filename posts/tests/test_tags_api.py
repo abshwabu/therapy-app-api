@@ -31,4 +31,12 @@ class PublicTagAPITest(TestCase):
         res = self.client.get(TAGS_URL)
 
         self.assertEqual(res.status_code,   status.HTTP_401_UNAUTHORIZED)
-        
+
+
+class PrivateTagAPITest(TestCase):
+    """Tests for private api request."""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = create_user()
+        self.client.force_authenticate(self.user)
