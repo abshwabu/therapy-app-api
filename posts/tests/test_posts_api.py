@@ -1,8 +1,6 @@
 """
 Tests for post APIs.
 """
-from decimal import Decimal
-
 from django.contrib.auth import get_user_model
 from django.test import TestCase
 from django.urls import reverse
@@ -10,7 +8,7 @@ from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APIClient
 
-from core.models import Post
+from core.models import Post, Tag
 
 from posts.serializers import PostSerializer, PostDetailSerializer
 
@@ -161,3 +159,25 @@ class PrivetPostAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Post.objects.filter(id=post.id).exists())
+
+    def test_creating_post_with_tags(self):
+        """Test creating post with tags."""
+        payload = {
+            'user': self.user,
+            'title': 'title',
+            'content': 'content',
+            'tags': [{'name': 'tag1'}, {'name': 'tag2'}],
+        }
+        res = self.client.post(POSTS_URL, payload)
+
+        self.assertEqual(res.status_code, status.HTTP_201_CREATED)
+        posts = Post.objects.filter(user=self.user)
+        self.assertEqual(posts.count(), 1)
+        post = posts[0]
+        self.assertEqual(post.tags.count(), 2)
+        for tag in payload['tags']:
+            exists = post.tags.filter(
+                name=tag['name'],
+                user=self.user
+            ).exists()
+            self.assertTrue(exists)
