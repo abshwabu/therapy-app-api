@@ -16,7 +16,7 @@ TAGS_URL = reverse('post:tag-list')
 
 def details_url(tag_id):
     """Create and return tags details"""
-    return reverse('posts:tag-details', args=(tag_id,))
+    return reverse('post:tag-detail', args=(tag_id,))
 
 
 def create_user(username='user', password='password123'):
