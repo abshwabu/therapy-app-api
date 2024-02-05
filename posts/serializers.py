@@ -42,6 +42,19 @@ class PostSerializer(serializers.ModelSerializer):
         self._get_or_create_tags(tags, post)
 
         return post
+
+    def update(self, instance, validated_data):
+        """Update post."""
+        tags = validated_data.pop('tags', None)
+        if tags is not None:
+            instance.tags.clear()
+            self._get_or_create_tags(tags, instance)
+
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+
+        instance.save()
+        return instance
 class PostDetailSerializer(PostSerializer):
     """serializer for post details."""
 
