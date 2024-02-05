@@ -203,3 +203,15 @@ class PrivetPostAPITests(TestCase):
                 user=self.user
             ).exists()
             self.assertTrue(exists)
+
+    def test_create_tag_on_update(self):
+        """Test creating a tag on update."""
+        post = create_post(user=self.user)
+
+        payload = {'tags': [{'name': 'tags'}]}
+        url = detail_url(post.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        new_tag = Tag.objects.create(user=self.user, name='tags')
+        self.assertIn(new_tag, res.tags.all())
