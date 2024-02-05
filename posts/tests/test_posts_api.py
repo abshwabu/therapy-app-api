@@ -208,13 +208,13 @@ class PrivetPostAPITests(TestCase):
         """Test creating a tag on update."""
         post = create_post(user=self.user)
 
-        payload = {'tags': [{'name': 'tags'}]}
+        payload = {'tags': [{'name': 'tag1'}]}
         url = detail_url(post.id)
         res = self.client.patch(url, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        new_tag = Tag.objects.create(user=self.user, name='tags')
-        self.assertIn(new_tag, res.tags.all())
+        new_tag = Tag.objects.get(user=self.user, name='tag1')
+        self.assertIn(new_tag, post.tags.all())
 
     def test_assigning_tags(self):
         """Test assigning tags."""
@@ -228,8 +228,8 @@ class PrivetPostAPITests(TestCase):
         res = self.client.patch(url, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertIn(tag2, res.tags.all())
-        self.assertNotIn(tag1, res.tags.all())
+        self.assertIn(tag2, post.tags.all())
+        self.assertNotIn(tag1, post.tags.all())
 
     def test_clear_tags(self):
         """Test clearing tags."""
@@ -237,7 +237,7 @@ class PrivetPostAPITests(TestCase):
         post = create_post(user=self.user)
         post.tags.add(tag1)
 
-        payload = {'tags': [{'name': 'tag2'}]}
+        payload = {'tags': []}
         url = detail_url(post.id)
         res = self.client.patch(url, payload, format='json')
 
