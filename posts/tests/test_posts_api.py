@@ -163,12 +163,11 @@ class PrivetPostAPITests(TestCase):
     def test_creating_post_with_tags(self):
         """Test creating post with tags."""
         payload = {
-            'user': self.user,
             'title': 'title',
             'content': 'content',
             'tags': [{'name': 'tag1'}, {'name': 'tag2'}],
         }
-        res = self.client.post(POSTS_URL, payload)
+        res = self.client.post(POSTS_URL, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         posts = Post.objects.filter(user=self.user)
@@ -186,12 +185,11 @@ class PrivetPostAPITests(TestCase):
         """test creating a post with existing tags."""
         tag1 = Tag.objects.create(user=self.user, name='tag1')
         payload = {
-            'user': self.user,
             'title': 'sample title',
             'content': 'sample content',
             'tags': [{'name': 'tag1'}, {'name': 'tag2'}]
         }
-        res = self.client.post(POSTS_URL, payload)
+        res = self.client.post(POSTS_URL, payload, format='json')
 
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
         posts = Post.objects.filter(user=self.user)
