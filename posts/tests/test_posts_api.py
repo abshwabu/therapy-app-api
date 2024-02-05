@@ -230,3 +230,16 @@ class PrivetPostAPITests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertIn(tag2, res.tags.all())
         self.assertNotIn(tag1, res.tags.all())
+
+    def test_clear_tags(self):
+        """Test clearing tags."""
+        tag1 = Tag.objects.create(user=self.user, name='tag1')
+        post = create_post(user=self.user)
+        post.tags.add(tag1)
+
+        payload = {'tags': [{'name': 'tag2'}]}
+        url = detail_url(post.id)
+        res = self.client.patch(url, payload, format='json')
+
+        self.assertEqual(res.status_code, status.HTTP_200_OK)
+        self.assertEqual(post.tags.count(), 0)
