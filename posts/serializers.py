@@ -25,10 +25,8 @@ class PostSerializer(serializers.ModelSerializer):
         fields = ['id', 'title','tags']
         read_only_fields = ['id']
 
-    def create(self, validated_data):
-        """Create a new post."""
-        tags = validated_data.pop('tags', [])
-        post = Post.objects.create(**validated_data)
+    def _get_or_create(self, tags, post):
+        """Handles getting or creating a tag from a post."""
         auth_user = self.context['request'].user
         for tag in tags:
             tag_obj, created = Tag.objects.get_or_create(
@@ -36,6 +34,12 @@ class PostSerializer(serializers.ModelSerializer):
                 **tag,
             )
             post.tags.add(tag_obj)
+
+    def create(self, validated_data):
+        """Create a new post."""
+        tags = validated_data.pop('tags', [])
+        post = Post.objects.create(**validated_data)
+
 
         return post
 class PostDetailSerializer(PostSerializer):
