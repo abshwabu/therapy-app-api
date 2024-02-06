@@ -62,4 +62,11 @@ class PostDetailSerializer(PostSerializer):
         fields = PostSerializer.Meta.fields + ['content']
 
 
+class PostImageSerializer(serializers.ModelSerializer):
+    """serializer for post images."""
 
+    class Meta:
+        model = Post
+        fields = ['id', 'image']
+        read_only_fields = 'id'
+        extra_kwargs = {'image': {'required': 'True'}}
