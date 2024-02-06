@@ -68,5 +68,5 @@ class PostImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ['id', 'image']
-        read_only_fields = 'id'
+        read_only_fields = ['id']
         extra_kwargs = {'image': {'required': 'True'}}
