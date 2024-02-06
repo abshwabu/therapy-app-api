@@ -59,3 +59,12 @@ class ModelTest(TestCase):
         tag = models.Tag.objects.create(user=user, name='tag name')
 
         self.assertEqual(str(tag), tag.name)
+
+    @patch('core.models.uuid.uuid4')
+    def test_post_file_name_uuid(self, mock_uuid):
+        """Test generating image patch."""
+        uuid = 'test-uuid'
+        mock_uuid.return_value = uuid
+        file_path = models.post_image_file_path(None, 'example.jpg')
+
+        self.assertEqual(file_path, f'uploads/post/{uuid}.jpg')
