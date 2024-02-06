@@ -13,6 +13,14 @@ from django.contrib.auth.models import (
 )
 
 
+def post_image_file_path(self, filename):
+    """Generates a path to a new image file."""
+    ext = os.path.splitext(filename)[1]
+    filename = f'{uuid.uuid4()}{ext}'
+
+    return os.path.join('uploads','post', filename)
+
+
 class UserManager(BaseUserManager):
     """Manager for users."""
 
