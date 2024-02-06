@@ -63,6 +63,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     content = models.TextField()
     tags = models.ManyToManyField('Tag')
+    images = models.ImageField(null=True, upload_to=post_image_file_path)
 
     def __str__(self):
         return self.title
