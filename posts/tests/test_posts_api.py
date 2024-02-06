@@ -260,4 +260,7 @@ class ImageUploadTest(TestCase):
         )
         self.client.force_authenticate(self.user)
         self.post = create_post(user=self.user)
-        
+
+    def tearDown(self):
+        self.post.images.delete()
+
