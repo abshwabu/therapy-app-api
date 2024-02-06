@@ -3,6 +3,7 @@ Tests for post APIs.
 """
 import os
 import tempfile
+from typing import Any
 
 from django.contrib.auth import get_user_model
 from django.test import TestCase
@@ -246,3 +247,17 @@ class PrivetPostAPITests(TestCase):
 
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(post.tags.count(), 0)
+
+
+class ImageUploadTest(TestCase):
+    """Tests for uploading images."""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = get_user_model().objects.create_user(
+            'username',
+            'password',
+        )
+        self.client.force_authenticate(self.user)
+        self.post = create_post(user=self.user)
+        
